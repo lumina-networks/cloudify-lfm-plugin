@@ -1,0 +1,14 @@
+eline_name: "eline_test"
+path_name: "path_test"
+
+ep1_switch_id: "openflow:101"
+ep1_switch_port: "1"
+ep1_network_type: "vlan"
+ep1_segmentation_id: "100"
+
+ep2_switch_id: "openflow:303"
+ep2_switch_port: "3"
+ep2_network_type: "vlan"
+ep2_segmentation_id: "100"
+
+path_waypoints: "openflow:102,openflow:103"

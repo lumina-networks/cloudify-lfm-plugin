@@ -1,0 +1,17 @@
+{
+    "paths": {
+        "path": [
+            {
+                "name": ".typetp2pmultiple-PATH1_6lqngd",
+                "endpoint1": {
+                    "node": "openflow:1001"
+                },
+                "endpoint2": {
+                    "node": "openflow:1007"
+                },
+                "constraints": {},
+                "provider": "sr"
+            }
+        ]
+    }
+}

@@ -1,0 +1,178 @@
+
+plugins:
+  sdn_controller:
+    executor: central_deployment_agent
+    package_name: cloudify-lfm-plugin
+    package_version: '0.1.0'
+
+node_types:
+
+  sdn_controller.nodes.sdn.CP:
+    derived_from: cloudify.nodes.Root
+    properties:
+      ep_props:
+        required: true
+        description: Dictionary of Endpoint properties
+
+#      access_list:
+#        required: false
+#        description: Access List
+#        default: {}
+
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        refresh: {}
+
+  sdn_controller.nodes.sdn.CP.EP1:
+    derived_from: sdn_controller.nodes.sdn.CP
+    properties:
+
+  sdn_controller.nodes.sdn.CP.EP2:
+    derived_from: sdn_controller.nodes.sdn.CP
+    properties:
+
+  sdn_controller.nodes.sdn.Path:
+    derived_from: cloudify.nodes.Root
+    properties:
+      name:
+        type: string
+        required: false
+        description: this will be the path name
+        default: ''
+
+      provider:
+        type: string
+        required: false
+        description: provider implementation to use
+        default: 'sr'
+
+      ep1_node_id:
+        type: string
+        required: true
+        description: endpoint1 node id (i.e. source)
+
+      ep2_node_id:
+        type: string
+        required: true
+        description: endpoint2 node id (i.e. destination)
+
+      constraints:
+        default: {}
+        required: false
+        description: constraints
+
+      sdn_config:
+        default: {}
+
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          implementation: sdn_controller.cloudify_fm.path.create
+          inputs:
+            args:
+              default: {}
+        start:
+          implementation: sdn_controller.cloudify_fm.path.start
+          inputs:
+        stop:
+          implementation: sdn_controller.cloudify_fm.path.stop
+          inputs:
+        delete:
+          implementation: sdn_controller.cloudify_fm.path.delete
+          inputs:
+        refresh:
+          implementation: sdn_controller.cloudify_fm.path.refresh
+          inputs:
+      cloudify.interfaces.validation:
+        creation:
+          implementation: sdn_controller.cloudify_fm.path.creation_validation
+          inputs:
+            args:
+              default: {}
+
+  sdn_controller.nodes.sdn.VL:
+    derived_from: cloudify.nodes.Root
+    properties:
+      name:
+        type: string
+        required: false
+        description: name of this VL
+        default: ''
+
+#      access_list:
+#        required: false
+#        description: Access List
+#        default: {}
+#
+#      access_lists:
+#        required: false
+#        description: Access Lists
+#        default: []
+
+      sdn_config:
+        default: {}
+
+
+  sdn_controller.nodes.sdn.VL.ELine:
+    derived_from: sdn_controller.nodes.sdn.VL
+    properties:
+
+#      name:
+#        type: string
+#        required: false
+#        description: this will be the path name
+#        default: ''
+
+      path_name:
+        type: string
+        required: false
+        description: this will be the path name
+        default: ''
+
+      protocol_type:
+        type: string
+        required: false
+        description: this will be the path name
+        default: ''
+
+      endpoint1:
+        # type: endpoint
+        default: {}
+        required: true
+        description: CP of type EP1
+
+      endpoint2:
+        # type: endpoint
+        default: {}
+        required: true
+        description: CP of type EP2
+
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          implementation: sdn_controller.cloudify_fm.eline.create
+          inputs:
+            args:
+              default: {}
+        start:
+          implementation: sdn_controller.cloudify_fm.eline.start
+          inputs:
+        stop:
+          implementation: sdn_controller.cloudify_fm.eline.stop
+          inputs:
+        delete:
+          implementation: sdn_controller.cloudify_fm.eline.delete
+          inputs:
+        refresh:
+          implementation: sdn_controller.cloudify_fm.eline.refresh
+          inputs:
+      cloudify.interfaces.validation:
+        creation:
+          implementation: sdn_controller.cloudify_fm.eline.creation_validation
+          inputs:
+            args:
+              default: {}
+
+relationships:
+  sdn_controller.relationships.ConnectsTo:
+    derived_from: cloudify.relationships.connected_to

@@ -1,0 +1,86 @@
+{
+    "elines": {
+        "eline": [
+            {
+                "name": "eline-p2pmultiple-VL1-6zhmdh",
+                "path-name": "path-p2pmultiple-PATH1_6lqngd",
+                "endpoint1": {
+                    "egress": {
+                        "action": [
+                            {
+                                "output-action": {
+                                    "output-node-connector": "13"
+                                }
+                            }
+                        ]
+                    },
+                    "matches": [
+                        {
+                            "match": {
+                                "vlan-match": {
+                                    "vlan-id": {
+                                        "vlan-id-present": true,
+                                        "vlan-id": 1804
+                                    }
+                                },
+                                "in-port": "13"
+                            }
+                        }
+                    ],
+                    "ingress": {
+                        "action": [
+                            {
+                                "set-field": {
+                                    "vlan-match": {
+                                        "vlan-id": {
+                                            "vlan-id-present": true,
+                                            "vlan-id": 1804
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "endpoint2": {
+                    "egress": {
+                        "action": [
+                            {
+                                "output-action": {
+                                    "output-node-connector": "13"
+                                }
+                            }
+                        ]
+                    },
+                    "matches": [
+                        {
+                            "match": {
+                                "vlan-match": {
+                                    "vlan-id": {
+                                        "vlan-id-present": true,
+                                        "vlan-id": 1804
+                                    }
+                                },
+                                "in-port": "13"
+                            }
+                        }
+                    ],
+                    "ingress": {
+                        "action": [
+                            {
+                                "set-field": {
+                                    "vlan-match": {
+                                        "vlan-id": {
+                                            "vlan-id-present": true,
+                                            "vlan-id": 1804
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

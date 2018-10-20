@@ -1,0 +1,94 @@
+{
+    "elines": {
+        "eline": [
+            {
+                "name": "h201-h203-arp",
+                "path-name": "MPLS-201-203",
+                "endpoint1": {
+                    "match": {
+                        "in-port": "openflow:201:1",
+                        "ethernet-match": {
+                            "ethernet-type": {
+                                "type": 2054
+                            }
+                        }
+                    },
+                    "egress": {
+                        "action": [
+                            {
+                                "order": 3,
+                                "output-action": {
+                                    "output-node-connector": "openflow:201:1"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "endpoint2": {
+                    "match": {
+                        "in-port": "openflow:203:1",
+                        "ethernet-match": {
+                            "ethernet-type": {
+                                "type": 2054
+                            }
+                        }
+                    },
+                    "egress": {
+                        "action": [
+                            {
+                                "order": 3,
+                                "output-action": {
+                                    "output-node-connector": "openflow:203:1"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "h201-h203-ip",
+                "path-name": "MPLS-101-103",
+                "endpoint1": {
+                    "match": {
+                        "in-port": "openflow:201:1",
+                        "ethernet-match": {
+                            "ethernet-type": {
+                                "type": 2048
+                            }
+                        }
+                    },
+                    "egress": {
+                        "action": [
+                            {
+                                "order": 3,
+                                "output-action": {
+                                    "output-node-connector": "openflow:201:1"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "endpoint2": {
+                    "match": {
+                        "in-port": "openflow:203:1",
+                        "ethernet-match": {
+                            "ethernet-type": {
+                                "type": 2048
+                            }
+                        }
+                    },
+                    "egress": {
+                        "action": [
+                            {
+                                "order": 3,
+                                "output-action": {
+                                    "output-node-connector": "openflow:203:1"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

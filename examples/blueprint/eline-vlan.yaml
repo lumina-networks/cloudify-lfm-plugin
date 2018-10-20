@@ -1,0 +1,117 @@
+tosca_definitions_version: cloudify_dsl_1_3
+
+description: >
+  This Blueprint installs a simple E-Line service
+  on an Openflow SDN controller environment.
+
+imports:
+
+  # cloudify server
+  - http://www.getcloudify.org/spec/cloudify/4.3.1/types.yaml
+  - http://file-server/spec/cloudify-lfm-plugin/0.1.0/plugin.yaml
+
+inputs:
+
+  path_name:
+    type: string
+    description: Path name
+
+  eline_name:
+    type: string
+    description: Path name
+
+  ep1_switch_id:
+    type: string
+    description: EP1 SDN switch id
+  ep1_switch_port:
+    type: string
+    description: EP1 SDN switch port number
+  ep1_network_type:
+    type: string
+    description: EP1 SDN network type (e.g. ethernet / vlan)
+    default: 'vlan'
+  ep1_segmentation_id:
+    type: string
+    description: EP1 SDN network vlan ID
+    default: '0'
+
+  ep2_switch_id:
+    type: string
+    description: EP2 SDN switch id
+  ep2_switch_port:
+    type: string
+    description: EP2 SDN switch port number
+  ep2_network_type:
+    type: string
+    description: EP2 SDN network type (e.g. ethernet / vlan)
+    default: 'vlan'
+  ep2_segmentation_id:
+    type: string
+    description: EP2 SDN network vlan ID
+    default: '0'
+  path_waypoints:
+    description: Path waypoints
+    default: []
+
+dsl_definitions:
+  # SDN Config
+  sdn_config: &sdn_config
+    ip: { get_secret: lsc_ipaddress }
+    user: { get_secret: lsc_user }
+    password: { get_secret: lsc_password }
+    protocol: { get_secret: lsc_protocol }
+    port: { get_secret: lsc_port }
+    verify: { get_secret: lsc_verify }
+
+node_templates:
+
+  EP1:        #endpoints of NS
+    type: sdn_controller.nodes.sdn.CP.EP1
+    properties:
+      ep_props:
+        switch_id: { get_input: ep1_switch_id }
+        switch_port: { get_input: ep1_switch_port }
+        network_type: { get_input: ep1_network_type }
+        segmentation_id: { get_input: ep1_segmentation_id }
+
+    relationships:
+      - type: sdn_controller.relationships.ConnectsTo
+        target: Eline
+
+  EP2:        #endpoints of NS
+    type: sdn_controller.nodes.sdn.CP.EP2
+    properties:
+      ep_props:
+        switch_id: { get_input: ep2_switch_id }
+        switch_port: { get_input: ep2_switch_port }
+        network_type: { get_input: ep2_network_type }
+        segmentation_id: { get_input: ep2_segmentation_id }
+
+    relationships:
+      - type: sdn_controller.relationships.ConnectsTo
+        target: Eline
+
+  Eline:
+    type: sdn_controller.nodes.sdn.VL.ELine
+    properties:
+      name: { get_input: eline_name }
+      path_name: { get_property: [Path, name] } # { get_input: path_name }
+      # protocol_type: ''
+      sdn_config: *sdn_config
+      endpoint1: { get_property: [EP1, ep_props]}
+      endpoint2: { get_property: [EP2, ep_props]}
+
+    relationships:
+      - type: sdn_controller.relationships.ConnectsTo
+        target: Path
+
+  Path:
+    type: sdn_controller.nodes.sdn.Path
+    properties:
+      name: { get_input: path_name }
+      sdn_config: *sdn_config
+      ep1_node_id: { get_property: [EP1, ep_props, switch_id ] }
+      ep2_node_id: { get_property: [EP2, ep_props, switch_id ] }
+      constraints:
+        waypoint: { get_input: path_waypoints }
+

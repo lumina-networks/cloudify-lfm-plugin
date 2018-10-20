@@ -1,0 +1,10 @@
+{
+    "sdn_config": {
+        "ip": "192.168.50.21",
+        "port": 8181,
+        "protocol": "http",
+        "user": "admin",
+        "password": "admin",
+        "verify": false
+    }
+}
