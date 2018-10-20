@@ -8,5 +8,5 @@ cloudify-plugins-common==4.3.1
 requests
 cerberus
 
-lfm-cli>=2.0.0
+lfmcli>=2.0.0
 # /home/vagrant/lfm-cli
